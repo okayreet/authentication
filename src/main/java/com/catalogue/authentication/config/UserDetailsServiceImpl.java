@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.catalogue.authentication.Login;
-import com.catalogue.authentication.LoginRepository;
+import com.catalogue.authentication.entity.Login;
+import com.catalogue.authentication.repository.LoginRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Login login = userRepository.findLoginByEmail(email)
+        Login login = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Wrong email or password"));
         return new org.springframework.security.core.userdetails.User(
                 email,

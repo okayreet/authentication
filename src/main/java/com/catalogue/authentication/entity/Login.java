@@ -1,4 +1,4 @@
-package com.catalogue.authentication;
+package com.catalogue.authentication.entity;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,9 +15,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "email_unique", columnNames = "email")
 })
@@ -37,10 +43,10 @@ public class Login {
     @NotBlank(message = "Role cannot be blank")
     private String role;
 
-    @JsonIgnore
-    public List<String> getRole() {
-        return Collections.singletonList(role);
-    }
+    // @JsonIgnore
+    // public List<String> getRole() {
+    //     return Collections.singletonList(role);
+    // }
     private Long userId;
 
 }
