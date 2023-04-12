@@ -4,7 +4,7 @@ spring:
   application:
     name: authentication
   datasource:
-    url: jdbc:postgresql://localhost:5432/okayreet
+    url: jdbc:postgresql://postgres:5432/okayreet
     username: "okayreet"
     password: "password"
   jpa:
@@ -15,5 +15,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-jwt:
-  secret: 4c91c9aaaceb49c27e876aae901a5b0c955e0c698349fd10d86cc9234a32e91
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -14,12 +15,13 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
+    @Value("${jwt.secret}")
+    public String secret;
 
-    public void validateToken(final String token) {
-        Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
-    }
+    // public void validateToken(final String token) {
+    //     Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
+    // }
 
 
     public String generateToken(String userName) {
@@ -37,7 +39,7 @@ public class JwtUtil {
     }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
