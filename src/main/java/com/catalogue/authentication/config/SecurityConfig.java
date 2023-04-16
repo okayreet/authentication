@@ -38,7 +38,11 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/v1/auth/login", "/api/v1/auth/validate").permitAll();
+                    auth.requestMatchers("/api/v1/auth/login"
+                    , "/api/v1/auth/validate"
+                    , "/api/v1/auth/register"
+                    , "/api/v1/auth/register2")
+                            .permitAll();
                     // auth.requestMatchers("/api/posts/**").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })

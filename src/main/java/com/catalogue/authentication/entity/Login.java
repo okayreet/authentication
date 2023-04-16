@@ -47,11 +47,7 @@ public class Login implements UserDetails {
         private String password;
         @NotBlank(message = "Role cannot be blank")
         private String role;
-
-        // @JsonIgnore
-        // public List<String> getRole() {
-        // return Collections.singletonList(role);
-        // }
+        
         private Long userId;
 
         @Override
@@ -88,5 +84,15 @@ public class Login implements UserDetails {
         public boolean isEnabled() {
                 return true;
         }
+
+        public Login(@NotBlank(message = "Email cannot be blank") @Email(message = "Must include @,. and top level domain (.com, .uk etc) ", regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$") String email,
+                        @NotBlank(message = "Password cannot be blank") String password,
+                        @NotBlank(message = "Role cannot be blank") String role, Long userId) {
+                this.email = email;
+                this.password = password;
+                this.role = role;
+                this.userId = userId;
+        }
+
 
 }

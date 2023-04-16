@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catalogue.authentication.dto.AuthRequest;
+import com.catalogue.authentication.dto.RegisterRequest;
 import com.catalogue.authentication.service.AuthService;
+import com.catalogue.authentication.service.RegistrationService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService service;
-
+    private final RegistrationService registrationService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
@@ -36,9 +39,17 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/register")
+    public Long register(@RequestBody RegisterRequest registerRequest) {
+        return registrationService.registerNewUser(registerRequest);
+    }
+    @PostMapping("/register2")
+    public String register2() {
+        return registrationService.register2();
+    }
     // @GetMapping("/validate")
     // public String validateToken(@RequestParam("token") String token) {
-    //     service.validateToken(token);
-    //     return "Token is valid";
+    // service.validateToken(token);
+    // return "Token is valid";
     // }
 }

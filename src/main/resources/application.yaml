@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: authentication
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
   datasource:
     url: jdbc:postgresql://localhost:5432/okayreet
     username: "okayreet"
@@ -15,5 +21,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
 jwt:
   secret: 4c91c9aaaceb49c27e876aae901a5b0c955e0c698349fd10d86cc9234a32e91
+registration:
+  service:
+    url: http://localhost:8081/api/v1/user
+    # url: lb://user/api/v1/user
