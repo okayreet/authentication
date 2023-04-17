@@ -1,6 +1,6 @@
 package com.catalogue.authentication.dto;
 
-public record RegisterRequest(
+public record UseDetailsResponse(
         String firstName,
         String lastName,
         String address1,
@@ -9,6 +9,5 @@ public record RegisterRequest(
         String postcode,
         String phoneNumber,
         String email,
-        String password,
         String role) {
 }

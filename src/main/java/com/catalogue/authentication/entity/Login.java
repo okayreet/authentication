@@ -1,14 +1,12 @@
 package com.catalogue.authentication.entity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -19,7 +17,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,19 +33,15 @@ public class Login implements UserDetails {
         @Id
         @SequenceGenerator(name = "login_sequence", sequenceName = "login_sequence", allocationSize = 1)
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "login_sequence")
-        @JsonIgnore
         private Long id;
-        @NotBlank(message = "Email cannot be blank")
-        @Email(message = "Must include @,. and top level domain (.com, .uk etc) ", regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-]"
-                        +
-                        "[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
+        @NotNull
+        @Email
         private String email;
-        @NotBlank(message = "Password cannot be blank")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private String password;
-        @NotBlank(message = "Role cannot be blank")
+        @NotNull
         private String role;
-        
+        @NotNull
         private Long userId;
 
         @Override
@@ -85,14 +79,11 @@ public class Login implements UserDetails {
                 return true;
         }
 
-        public Login(@NotBlank(message = "Email cannot be blank") @Email(message = "Must include @,. and top level domain (.com, .uk etc) ", regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$") String email,
-                        @NotBlank(message = "Password cannot be blank") String password,
-                        @NotBlank(message = "Role cannot be blank") String role, Long userId) {
+        public Login(@NotNull @Email String email, String password, @NotNull String role, @NotNull Long userId) {
                 this.email = email;
                 this.password = password;
                 this.role = role;
                 this.userId = userId;
         }
-
 
 }
