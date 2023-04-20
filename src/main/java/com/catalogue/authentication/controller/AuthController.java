@@ -23,21 +23,23 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final AuthService service;
+    // private final AuthService service;
     private final RegistrationService registrationService;
-    private final AuthenticationManager authenticationManager;
+    // private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/login")
-    public String getToken(@RequestBody AuthRequest authRequest) {
-        Authentication authenticate = authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-        if (authenticate.isAuthenticated()) {
-            return service.generateToken(authRequest.getEmail());
-        } else {
-            throw new ApiRequestException("invalid access");
-        }
-    }
+    // @PostMapping("/login")
+    // public String getToken(@RequestBody AuthRequest authRequest) {
+    //     Authentication authenticate = authenticationManager
+    //             .authenticate(
+    //                     new UsernamePasswordAuthenticationToken(
+    //                         authRequest.getEmail(),
+    //                          authRequest.getPassword()));
+    //     if (authenticate.isAuthenticated()) {
+    //         return service.generateToken(authRequest.getEmail());
+    //     } else {
+    //         throw new ApiRequestException("invalid access");
+    //     }
+    // }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegistrationRequest registerRequest) {
