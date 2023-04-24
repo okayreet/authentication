@@ -3,6 +3,7 @@ package com.catalogue.authentication.config;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,14 +33,27 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-        String email = obtainUsername(request);
-        String password = obtainPassword(request);
-        if (email != null && password != null) {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    email,
-                    password);
-            return authenticationProvider.authenticate(authenticationToken);
+        // String email = obtainUsername(request);
+        // String password = obtainPassword(request);
+
+        String authorizationHeader = request.getHeader("Authorization");
+
+        // Extract the username and password from the Authorization header
+        if (authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
+            String base64Credentials = authorizationHeader.substring("Basic ".length());
+            byte[] decodedCredentials = Base64.getDecoder().decode(base64Credentials);
+            String credentials = new String(decodedCredentials);
+            String[] usernamePassword = credentials.split(":");
+            String email = usernamePassword[0];
+            String password = usernamePassword[1];
+            if (email != null && password != null) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        email,
+                        password);
+                return authenticationProvider.authenticate(authenticationToken);
+            }
         }
+
         throw new UsernameNotFoundException("wrong email or password");
     }
 
