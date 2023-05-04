@@ -13,13 +13,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import static java.time.temporal.ChronoUnit.MINUTES;;
+import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Component
 public class JwtUtil {
 
     @Value("${jwt.secret}")
-    public static final String SECRET ="4c91c9aaaceb49c27e876aae901a5b0c955e0c698349fd10d86cc9234a32e91";
+    public static final String SECRET = "4c91c9aaaceb49c27e876aae901a5b0c955e0c698349fd10d86cc9234a32e91";
 
     public static void validateToken(final String token) {
         Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
@@ -31,7 +32,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(email)
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(15, MINUTES)))
+                .setExpiration(Date.from(Instant.now().plus(15, DAYS)))// change it to MINIUTES on productions
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

@@ -1,4 +1,4 @@
-package com.catalogue.authentication.feignClient;
+package com.catalogue.authentication.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

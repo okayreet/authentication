@@ -2,6 +2,7 @@ package com.catalogue.authentication.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,6 +27,11 @@ public class SecurityConfig {
     private final LoginRepository loginRepository;
 
     @Bean
+    ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    @Bean
     UserDetailsService userDetailsService() {
         return email -> loginRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException("Wrong email or password"));
@@ -41,7 +47,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/getlogin").permitAll()
+                // .requestMatchers("/api/v1/auth/user/**").hasRole("USER")
                 .and()
                 .authorizeHttpRequests().anyRequest().authenticated()
                 .and()
